@@ -6,9 +6,8 @@ use think\Request;
 class Role extends Controller
 {
     /**
-     * 显示角色用户列表首页
-     *
-     * @return \think\Response
+     * 显示角色首页
+     * @return [type] [description]
      */
     public function index()
     {
@@ -16,17 +15,18 @@ class Role extends Controller
         $this->assign('list', $list);
         return view('role/index');
     }
-    
+
     /**
-     * 显示添加角色
+     *
      * @return [type] [description]
      */
     public function create()
     {
         return view('role/add');
     }
+
     /**
-     * 显示新增角色页面
+     * 显示保存新建角色
      * @param  Request $request [description]
      * @return [type]           [description]
      */
@@ -45,7 +45,7 @@ class Role extends Controller
             $this->error('新增角色失败！');
         }
     }
-    
+
     /**
      * [read description]
      * @param  [type] $id [description]
@@ -57,7 +57,7 @@ class Role extends Controller
     }
 
     /**
-     * 显示编辑页面
+     * 显示编辑角色页面
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
@@ -68,9 +68,8 @@ class Role extends Controller
         return view('role/edit');
     }
 
-    
     /**
-     * 显示修改角色页面
+     * 显示更新的角色
      * @param  Request $request [description]
      * @param  [type]  $id      [description]
      * @return [type]           [description]
@@ -89,9 +88,10 @@ class Role extends Controller
             $this->error('角色修改失败！');
         }
     }
-    
+
+
     /**
-     * 删除指定用户
+     * 显示删除角色
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
@@ -104,9 +104,9 @@ class Role extends Controller
             $this->error('角色删除失败！');
         }
     }
-    public function active($id,$status)
+    public function active($id,$active)
     {
-        if ($status == 0) {
+        if ($active == 0) {
             $status = 1;
         } else {
             $status = 0;
@@ -118,4 +118,52 @@ class Role extends Controller
             $this->error('角色状态修改失败！');
         }
     }
+
+
+   public function nodelist($id)
+    {
+        // 查询角色信息
+        $role = Db::name('role')->where('id', $id)->find();
+        // 查所有节点
+        $date = Db::view('lamp_node', 'id,name')->select();
+        // 查询该角色的节点
+        $list = Db::view('lamp_role_node', 'nid')
+            ->view('lamp_node', "id,name,mname,aname", 'lamp_node.id=lamp_role_node.nid')
+            ->where('rid', '=', $id)
+            ->select();
+        foreach ($list as $v) {
+            $lists[] = $v['nid'];
+        }
+        $this->assign('role', $role);
+        $this->assign('date', $date);
+        $this->assign('lists', $lists);
+        return view('role/nodelist');
+    }
+    public function rolenode(Request $request)
+    {
+        $list = $request->post();
+        $node = $list['node'];
+        $id = $list['id'];
+        Db::startTrans();
+        try {
+            db('role_node')->where('rid', $id)->delete();
+            foreach ($node as $v) {
+                $date['nid'] = $v;
+                $date['rid'] = $id;
+                $result = db('role_node')->insert($date);
+            }
+// 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+// 回滚事务
+            Db::rollback();
+        }
+        if ($result) {
+            return $this->success('更新(((((((((((っ･ω･)っ Σ(σ｀･ω･´)σ 起飞！', url('admin/role/index'));
+        } else {
+            return $this->success('更新失败(o＞ω＜o)雅蠛蝶');
+        }
+    }
+
+
 }

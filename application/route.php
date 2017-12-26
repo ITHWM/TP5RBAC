@@ -11,12 +11,17 @@
 
 use think\Route;
 
-Route::get('/', 'index/Index/index');
+// Route::get('/', 'index/Index/index');\
+Route::get('user/delete/:id', 'admin/user/delete');
+Route::get('role/delete/:id', 'admin/role/delete');
+Route::get('node/delete/:id', 'admin/node/delete');
 
-Route::resource('users', 'rest/User');
-Route::get('users/read/:id', 'rest/User/readpage');
+Route::get('role/node/:id','admin/role/node');
 
 
-return [
+Route::resource('user', 'admin/user');
+Route::resource('role', 'admin/role');
+Route::resource('node', 'admin/node');
 
-];
+
+return [];

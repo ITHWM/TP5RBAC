@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="toolbar-btn-action">
-                                        <a href="{:url('user/create')}" class="btn btn-success"><i class="fa fa-plus-circle"></i>新增</a>
+                                        <a href="{:url('admin/user/create')}" class="btn btn-success"><i class="fa fa-plus-circle"></i>新增</a>
                                     </div>
                                 </div>
                             </div>
@@ -43,7 +43,6 @@
                                     </th>
                                     <th>管理员账号</th>
                                     <th>管理员名称</th>
-                                    
                                     <th data-sortable="false">操作</th>
                                 </tr>
                                 </thead>
@@ -57,10 +56,10 @@
                                     <td>{$v.name}</td>
                                     <td>
                                         <div>
-                                            <a href="{:url('user/edit',['id'=>$v['id']])}" data-toggle="tooltip" title="修改" class="btn btn-success ">
-                                                   <i class="fa fa-edit"></i></a>
-                                            <a href="{:url('user/delete',['id'=>$v['id']])}" data-toggle="tooltip" title="删除" class="btn btn-danger"><i
-                                                    class="fa fa-times"></i></a>
+                                            <a href="{:url('admin/user/edit',['id'=>$v['id']])}" data-toggle="tooltip" title="修改" class="btn btn-success ">
+                                                   <i class="glyphicon glyphicon-edit"></i></a>
+                                            <a href="{:url('admin/user/delete',['id'=>$v['id']])}" data-toggle="tooltip" title="删除" class="btn btn-danger"><i
+                                                    class="glyphicon glyphicon-trash"></i></a>
                                         </div>
                                     </td>
                                 </tr>

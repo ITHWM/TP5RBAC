@@ -100,14 +100,4 @@ class User extends Controller
             $this->error('用户删除失败！');
         }
     }
-    public function active($id, $active)
-    {
-        if ($active == 0) {
-            $active = 1;
-        } else {
-            $active = 0;
-        }
-        Db::table('lamp_user')->where('id', $id)->update(['active' => $active]);
-        $this->success('用户状态修改成功！');
-    }
 }

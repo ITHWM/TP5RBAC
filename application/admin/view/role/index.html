@@ -27,7 +27,7 @@
                                 </div>
                                 <div class="col-md-8">
                                     <div class="toolbar-btn-action">
-                                        <a href="{:url('role/create')}" class="btn btn-success"><i class="fa fa-plus-circle"></i>新增</a>
+                                        <a href="{:url('admin/role/create')}" class="btn btn-success"><i class="fa fa-plus-circle"></i>新增</a>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,6 @@
                                      class="rows-check"></th>
                                     <th>角色名</th>
                                     <th>备注</th>
-                                    <th>状态</th>
                                     <th data-sortable="false">操作</th>
                                 </tr>
                                 </thead>
@@ -55,22 +54,15 @@
                                     <td><strong>{$v.name}</strong></td>
                                     <td>{$v.remark}</td>
                                     <td>
-                                        {switch name="v.status" }
-                                        {case value="1" break="1"}<span class="label label-success">激活</span>{/case}
-                                        {case value="0"}<span class="label label-danger">禁用</span>{/case}
-                                        {default /}<span class="label label-info">未知错误</span>
-                                        {/switch}
-                                    </td>
-                                    <td>
                                         <div>
-                                            <a href="{:url('role/active',['id'=>$v['id'],'status'=>$v['status']])}" data-toggle="tooltip" title="禁用" class="btn btn-default"><i
-                                                    class="fa fa-unlock-alt"></i>
+                                            <a href="{:url('admin/role/nodelist',['id'=>$v['id'],'status'=>$v['status']])}" data-toggle="tooltip" title="分类权限" class="btn btn-default"><i
+                                                    class="glyphicon glyphicon-lock"></i>
                                                 </a>
-                                            <a href="{:url('user/edit',['id'=>$v['id']])}" data-toggle="tooltip" title="修改" class="btn btn-success ">
-                                                   <i class="fa fa-edit"></i>
+                                            <a href="{:url('admin/role/edit',['id'=>$v['id']])}" data-toggle="tooltip" title="修改" class="btn btn-success ">
+                                                   <i class="glyphicon glyphicon-edit"></i>
                                                </a>
-                                            <a href="{:url('user/delete',['id'=>$v['id']])}" data-toggle="tooltip" title="删除" class="btn btn-danger"><i
-                                                    class="fa fa-times"></i>
+                                            <a href="{:url('admin/role/delete',['id'=>$v['id']])}" data-toggle="tooltip" title="删除" class="btn btn-danger">
+                                                <i class="glyphicon glyphicon-trash"></i>
                                                 </a>
                                         </div>
                                     </td>

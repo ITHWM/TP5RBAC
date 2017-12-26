@@ -35,6 +35,7 @@ class Node extends Controller
      */
     public function save(Request $request)
     {
+        // 不过滤数据字段
     	$list = $request->post();
     	$data= [
     		'name' => $list['name'],
