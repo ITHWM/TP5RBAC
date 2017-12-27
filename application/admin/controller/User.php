@@ -15,23 +15,19 @@ class User extends Controller
         $list = Db::table('lamp_user')->select();
 
         //声明一个空数组
-         $arr = array();
-         //遍历用户信息
+        $arr = array();
+        //遍历用户信息
         foreach ($list as $v) {
             //遍历
             $role_ids = db('user_role')->field(['rid'])->where('uid',$v['id'])->select();
-
             $roles =array();
-
             foreach ( $role_ids as $q){
                 $roles[]=db('role')->field(['name'])->where('id',$q['rid'])->select();
             }
-
             //将新得到角色信息放置到$v中
             $v['role'] = $roles;
             $arr[] =$v;
         }
-
         $this->assign('list', $arr);
         return view('user/index');
     }
