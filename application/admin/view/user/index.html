@@ -38,28 +38,38 @@
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th style="width: 30px" data-sortable="false">
-                                        <input type="checkbox"class="rows-check">
-                                    </th>
                                     <th>管理员账号</th>
                                     <th>管理员名称</th>
+                                    <th>所属角色</th>
                                     <th data-sortable="false">操作</th>
                                 </tr>
                                 </thead>
 
                                 <tbody>
-                                {volist name="list" id="v"}
+                                {volist name="list" key ="k" id="vo"}
                                 <tr>
-                                    <td>{$v.id}</td>
-                                    <td><input type="checkbox" class="rows-check"></td>
-                                    <td><strong>{$v.username}</strong></td>
-                                    <td>{$v.name}</td>
+                                    <td>{$vo.id}</td>
+                                    <td><strong>{$vo.username}</strong></td>
+                                    <td>{$vo.name}</td>
+                                    <td>
+                                        {volist name="vo.role" id="h"}
+                                            <span ><{$h[0]['name']}></span>
+                                        {/volist}
+                                    </td>
                                     <td>
                                         <div>
-                                            <a href="{:url('admin/user/edit',['id'=>$v['id']])}" data-toggle="tooltip" title="修改" class="btn btn-success ">
-                                                   <i class="glyphicon glyphicon-edit"></i></a>
-                                            <a href="{:url('admin/user/delete',['id'=>$v['id']])}" data-toggle="tooltip" title="删除" class="btn btn-danger"><i
-                                                    class="glyphicon glyphicon-trash"></i></a>
+                                             <a href="{:url('admin/user/rolelist',['id'=>$vo['id']])}" data-toggle="tooltip"
+                                              title="分配权限" class="btn btn-default ">
+                                                   <i class="glyphicon glyphicon-lock"></i>
+                                            </a>
+
+                                            <a href="{:url('admin/user/edit',['id'=>$vo['id']])}" data-toggle="tooltip" title="修改" class="btn btn-success ">
+                                                   <i class="glyphicon glyphicon-edit"></i>
+                                            </a>
+
+                                            <a href="{:url('admin/user/delete',['id'=>$vo['id']])}" data-toggle="tooltip" title="删除" class="btn btn-danger">
+                                                <i class="glyphicon glyphicon-trash"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>

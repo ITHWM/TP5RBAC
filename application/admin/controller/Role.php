@@ -119,51 +119,65 @@ class Role extends Controller
         }
     }
 
-
+    /**
+     * 显示权限分配页面
+     * @param  [type] $id [description]
+     * @return [type]     [description]
+     */
    public function nodelist($id)
-    {
-        // 查询角色信息
-        $role = Db::name('role')->where('id', $id)->find();
-        // 查所有节点
-        $date = Db::view('lamp_node', 'id,name')->select();
-        // 查询该角色的节点
-        $list = Db::view('lamp_role_node', 'nid')
-            ->view('lamp_node', "id,name,mname,aname", 'lamp_node.id=lamp_role_node.nid')
-            ->where('rid', '=', $id)
-            ->select();
-        foreach ($list as $v) {
-            $lists[] = $v['nid'];
+   {
+    // 查询角色信息
+    $role = Db::name('role')->where('id', $id)->find();
+    //查询所有节点
+    $date = Db::view('lamp_node', 'id,name')->select();
+    // 查询该角色的节点
+    $list = Db::view('lamp_role_node', 'nid')
+              ->view('lamp_node', "id, name, mname, aname", 'lamp_node.id=lamp_role_node.nid')
+              ->where('rid', '=', $id)
+              ->select();
+              // var_dump($list); die;
+
+    if(!empty($list)){
+    foreach ($list as $v) {
+        $lists[] = $v['nid'];
         }
-        $this->assign('role', $role);
-        $this->assign('date', $date);
         $this->assign('lists', $lists);
-        return view('role/nodelist');
-    }
-    public function rolenode(Request $request)
-    {
-        $list = $request->post();
-        $node = $list['node'];
-        $id = $list['id'];
-        Db::startTrans();
-        try {
-            db('role_node')->where('rid', $id)->delete();
-            foreach ($node as $v) {
-                $date['nid'] = $v;
-                $date['rid'] = $id;
-                $result = db('role_node')->insert($date);
-            }
-// 提交事务
-            Db::commit();
-        } catch (\Exception $e) {
-// 回滚事务
-            Db::rollback();
-        }
-        if ($result) {
-            return $this->success('更新(((((((((((っ･ω･)っ Σ(σ｀･ω･´)σ 起飞！', url('admin/role/index'));
-        } else {
-            return $this->success('更新失败(o＞ω＜o)雅蠛蝶');
-        }
+    }else{
+        $this->assign('lists',['99999']);
     }
 
+    $this->assign('role', $role);
+    $this->assign('date', $date);
+    $this->assign('list', $list);
+    return view('role/nodelist');
+   }
+
+   public function rolenode(Request $request)
+   {
+    $list = $request->post();
+    $node = $list['node'];
+    $id = $list['id'];
+
+    // 手动开启事务
+    Db::startTrans();
+    try{
+        db('role_node')->where('rid', $id)->delete();
+        foreach ($node as $v) {
+            $data['nid'] = $v;
+            $data['rid'] = $id;
+            $result = db('role_node')->insert($data);
+        }
+        // 提交事务
+        Db::commit();
+    } catch (\Exception $e) {
+        // 回滚事务
+        Db::rollback();
+    }
+        if ($result) {
+            return $this->success('更新成功！起飞6666', url('admin/role/index'));
+        } else {
+            return $this->error('更改失败! 降落55555');
+        }
+   }
 
 }
