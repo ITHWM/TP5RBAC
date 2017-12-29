@@ -1,11 +1,11 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
+
 use think\Db;
 use think\Request;
-class User extends Controller
-{
 
+class User extends AdminController
+{
     /**
      * [index description]显示用户首页
      * @return [type] [description]
@@ -122,7 +122,7 @@ class User extends Controller
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-    public function rolelist($id)
+    public function role($id)
     {
         // 查询用户信息
         $user = Db::name('user')->where('id', $id)->find();
@@ -147,7 +147,7 @@ class User extends Controller
         $this->assign('user', $user);
         $this->assign('date', $date);
 
-        return view('user/rolelist');
+        return view('user/role');
     }
 
     /**
@@ -160,7 +160,7 @@ class User extends Controller
         $list = $request->post();
         $id = $list['id'];
         if (empty($list['node'])) {
-            return $this->success('必须添加节点', url('admin/role/rolelist', ['id' => $id]));
+            return $this->success('必须添加节点', url('admin/role/role', ['id' => $id]));
         }
         $node = $list['node'];
         Db::startTrans();

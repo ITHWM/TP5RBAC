@@ -1,12 +1,12 @@
 <?php
 
 namespace app\admin\controller;
-use think\Controller;
+
 use think\Db;
 use think\Request;
 
 
-class Node extends Controller
+class Node extends AdminController
 {
 	/**
 	 * 显示节点列表首页

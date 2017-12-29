@@ -1,9 +1,9 @@
 <?php
 namespace app\admin\controller;
-use think\Controller;
+
 use think\Db;
 use think\Request;
-class Role extends Controller
+class Role extends AdminController
 {
     /**
      * 显示角色首页
@@ -124,7 +124,7 @@ class Role extends Controller
      * @param  [type] $id [description]
      * @return [type]     [description]
      */
-   public function nodelist($id)
+   public function node($id)
    {
     // 查询角色信息
     $role = Db::name('role')->where('id', $id)->find();
@@ -149,10 +149,10 @@ class Role extends Controller
     $this->assign('role', $role);
     $this->assign('date', $date);
     $this->assign('list', $list);
-    return view('role/nodelist');
+    return view('role/node');
    }
 
-   public function rolenode(Request $request)
+   public function nodeup(Request $request)
    {
     $list = $request->post();
     $node = $list['node'];
